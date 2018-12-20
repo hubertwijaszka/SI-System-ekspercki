@@ -1,0 +1,627 @@
+package com.sample
+import java.util.ArrayList;
+import java.util.Arrays;
+//import com.sample.DroolsTest.Message;
+//import com.sample.DroolsTest.Pytanie;
+//import com.sample.DroolsTest.Odpowiedz;
+//import com.sample.DroolsTest.Window;
+//import javax.swing.JOptionPane;
+//import org.drools.definition.type.FactType
+
+declare Question
+	content : String
+	answer : String
+end
+
+
+
+
+rule "init"
+	when
+	then
+		Question q=new Question();
+		q.setContent("Do you appreciate money above all else?");		
+		String[] possible = new String[2];
+		possible[0]="No";
+		possible[1]="Yes";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue); //pozniej zmienic na selectedvalue
+		insert(q);
+end
+
+
+rule "Money_y"
+	when
+		p: Question(content == "Do you appreciate money above all else?", answer == "Yes")
+	then
+		Question q=new Question();
+		q.setContent("Do you have money?");		
+		String[] possible = new String[2];
+		possible[0]="No";
+		possible[1]="Yes";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue); //pozniej zmienic na selectedvalue
+		insert(q);
+end
+
+
+
+rule "MoneyOwn_y"
+	when
+		p: Question(content == "Do you have money?", answer == "Yes")
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Studio Head");
+
+end
+
+rule "MoneyOwn_n"
+	when
+		p: Question(content == "Do you have money?", answer == "No")
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Dairy Owner");
+
+end
+
+rule "Money_n"
+	when
+		p: Question(content == "Do you appreciate money above all else?", answer == "No")
+	then
+		Question q=new Question();
+		q.setContent("Can you get excited about someone else's idea?");		
+		String[] possible = new String[3];
+		possible[0]="Not really";
+		possible[1]="Sure but I'll make it mine";
+		possible[2]="I can fake it";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Idea_not_really"
+	when
+		p: Question(content == "Can you get excited about someone else's idea?", answer == "Not really")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you have exceptional literary talent?");		
+		String[] possible = new String[3];
+		possible[0]="Yes";
+		possible[1]="No";
+		possible[2]="I think so";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "literary_y"
+	when
+		p: Question(content == "Do you have exceptional literary talent?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Screenwriter");
+end
+
+rule "literary_n"
+	when
+		p: Question(content == "Do you have exceptional literary talent?", answer == "No")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you bitter about it?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "bitter_y"
+	when
+		p: Question(content == "Are you bitter about it?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Film Critic");
+
+end
+
+rule "bitter_n"
+	when
+		p: Question(content == "Are you bitter about it?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Starving writer");
+
+end
+
+rule "literary_its"
+	when
+		p: Question(content == "Do you have exceptional literary talent?", answer == "I think so")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Blogger");
+end
+
+
+rule "Idea_sure_but"
+	when
+		p: Question(content == "Can you get excited about someone else's idea?", answer == "Sure but I'll make it mine")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you have exceptional talent?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Talent_y"
+	when
+		p: Question(content == "Do you have exceptional talent?", answer == "Yes")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you unknown and/or female?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Unknown_y"
+	when
+		p: Question(content == "Are you unknown and/or female?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Indie Filmmaker");
+
+end
+
+rule "Unknown_n"
+	when
+		p: Question(content == "Are you unknown and/or female?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Director");
+
+end
+
+rule "Talent_n"
+	when
+		p: Question(content == "Do you have exceptional talent?", answer == "No")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you bitter about it?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="It's not about talent but hard work";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "bitter2_y"
+	when
+		p: Question(content == "Are you bitter about it?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Head of film commission");
+end
+
+rule "bitter2_its_not"
+	when
+		p: Question(content == "Are you bitter about it?", answer == "It's not about talent but hard work")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Film School Teacher");
+end
+
+
+rule "Idea_fake"
+	when
+		p: Question(content == "Can you get excited about someone else's idea?", answer == "I can fake it")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you visually oriented?");		
+		String[] possible = new String[3];
+		possible[0]="Yes";
+		possible[1]="No";
+		possible[2]="You mean the way I look?";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Visually_y"
+	when
+		p: Question(content == "Are you visually oriented?", answer == "Yes")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you like polishing the turd?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Polishing_y"
+	when
+		p: Question(content == "Do you like polishing the turd?", answer == "Yes")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you also a therapist?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "therapist_y"
+	when
+		p: Question(content == "Are you also a therapist?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Make-up artist");
+end
+
+rule "therapist_n"
+	when
+		p: Question(content == "Are you also a therapist?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be an Editor");
+end
+
+rule "Polishing_n"
+	when
+		p: Question(content == "Do you like polishing the turd?", answer == "No")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you baby-faced and/or female?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Babyfaced_n"
+	when
+		p: Question(content == "Are you baby-faced and/or female?", answer == "No")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you cooler than Fonzie?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Fonzie_y"
+	when
+		p: Question(content == "Are you cooler than Fonzie?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be D.P.(DOP)");
+
+end
+
+rule "Fonzie_n"
+	when
+		p: Question(content == "Are you cooler than Fonzie?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should a Gaffer");
+
+end
+
+rule "Babyfaced_y"
+	when
+		p: Question(content == "Are you baby-faced and/or female?", answer == "Yes")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you want to be told what to do?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Betold_y"
+	when
+		p: Question(content == "Do you want to be told what to do?", answer == "Yes")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you enjoy waiting around doing nothing?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "nothing_y"
+	when
+		p: Question(content == "Do you enjoy waiting around doing nothing?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Wardrobe Assist");
+
+end
+
+rule "nothing_n"
+	when
+		p: Question(content == "Do you enjoy waiting around doing nothing?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Camera Artist");
+
+end
+
+rule "Betold_n"
+	when
+		p: Question(content == "Do you want to be told what to do?", answer == "No")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you secretly want to direct?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="It's not a secret";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Secretly_y"
+	when
+		p: Question(content == "Do you secretly want to direct?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Wardrobe");
+
+end
+
+rule "Secretly_not_sec"
+	when
+		p: Question(content == "Do you secretly want to direct?", answer == "It's not a secret")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Art Director");
+
+end
+
+rule "Visually_Ilook"
+	when
+		p: Question(content == "Are you visually oriented?", answer == "You mean the way I look?")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you have a wild imagination and no shame?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Noshame_y"
+	when
+		p: Question(content == "Do you have a wild imagination and no shame?", answer == "Yes")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you young and hot?");		
+		String[] possible = new String[3];
+		possible[0]="Yes";
+		possible[1]="No";
+		possible[2]="Hot!";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Young_hot_y"
+	when
+		p: Question(content == "Are you young and hot?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be an Actor");
+
+end
+
+rule "Young_hot_n"
+	when
+		p: Question(content == "Are you young and hot?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Character Actor");
+
+end
+
+rule "Young_hot_h"
+	when
+		p: Question(content == "Are you young and hot?", answer == "Hot!")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be an Acting Teacher");
+
+end
+
+rule "Noshame_n"
+	when
+		p: Question(content == "Do you have a wild imagination and no shame?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be an Extra");
+
+end
+
+
+rule "Visually_n"
+	when
+		p: Question(content == "Are you visually oriented?", answer == "No")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you skilled at cleaning up other pepople's mess?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Cleaning_y"
+	when
+		p: Question(content == "Are you skilled at cleaning up other pepople's mess?", answer == "Yes")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you stress about it?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Stress_n"
+	when
+		p: Question(content == "Do you stress about it?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be Catering");
+
+end
+
+rule "Stress_y"
+	when
+		p: Question(content == "Do you stress about it?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Producer");
+
+end
+
+rule "Cleaning_n"
+	when
+		p: Question(content == "Are you skilled at cleaning up other pepople's mess?", answer == "No")
+
+	then
+		Question q=new Question();
+		q.setContent("Are you musical?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "Musical_y"
+	when
+		p: Question(content == "Are you musical?", answer == "Yes")
+
+	then
+		Question q=new Question();
+		q.setContent("Do you have arms of steel?");		
+		String[] possible = new String[2];
+		possible[0]="Yes";
+		possible[1]="No";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+
+rule "Steel_y"
+	when
+		p: Question(content == "Do you have arms of steel?", answer == "Yes")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Soundie");
+
+end
+
+rule "Steel_n"
+	when
+		p: Question(content == "Do you have arms of steel?", answer == "No")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Composer");
+
+end
+
+rule "Musical_n"
+	when
+		p: Question(content == "Are you musical?", answer == "No")
+
+	then
+		Question q=new Question();
+		q.setContent("What can you do?");		
+		String[] possible = new String[3];
+		possible[0]="Sit";
+		possible[1]="Drive";
+		possible[2]="Joke";
+		String selectedValue=MyFrame.wyswietl(possible,q.getContent());
+		q.setAnswer(selectedValue);
+		insert(q);
+end
+
+rule "What_s"
+	when
+		p: Question(content == "What can you do?", answer == "Sit")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be being a part of Audience");
+
+end
+
+rule "What_d"
+	when
+		p: Question(content == "What can you do?", answer == "Drive")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Runner");
+
+end
+
+rule "What_j"
+	when
+		p: Question(content == "What can you do?", answer == "Joke")
+
+	then
+		MyFrame.wyswietlPodsumowanie("Your job should be a Grip");
+
+end
+
+
+
+
